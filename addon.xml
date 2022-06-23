@@ -1,0 +1,32 @@
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.0">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests" version="2.22.0" />
+    <import addon="inputstream.adaptive" version="19.0.0"/>
+    <import addon="script.module.beautifulsoup4" version="4.6.0" />    
+  </requires>
+  <extension library="main.py" point="xbmc.python.pluginsource">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="cs_CZ">Sport Streams</summary>
+    <description lang="cs_CZ">
+České a slovenské sportovní přenosy z různých zdrojů:
+
+ČT4 Sport Plus (ČT4 Sport + extra přenosy)
+TVcom.cz (živé přenosy i archiv různých sportů a soutěží)
+Huste.tv (živé přenosy i archiv ze slovenských soutěží)
+Volej.tv (přenosy volejbalových soutěží)
+Ping-pong.tv (přenosy ze soutěží stolního tenisu
+    </description>    
+    <platform>all</platform>
+    <source>https://github.com/waladir/plugin.video.sportstreams</source>
+    <news>
+v1.0.0 (26.6.2022)
+- první verze
+    </news>
+    <assets>
+        <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>

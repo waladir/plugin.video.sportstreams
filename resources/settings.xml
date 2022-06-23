@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <category label="Služby">
+            <setting label="ČT4 Sport Plus" type="bool" id="ct4sportplus" default="true"/>
+            <setting type="sep"/>
+            <setting label="TVcom.cz" type="bool" id="tvcom.cz" default="true"/>
+            <setting type="sep"/>
+            <setting label="Huste.tv" type="bool" id="huste.tv" default="true"/>
+            <setting label="Řazení kategorií archivu" type="select" id="category_order" values="výchozí|podle abecedy" default="výchozí"/>
+            <setting label="Kvalita streamu" type="select" id="quality" values="nízká|vysoká" default="vysoká"/>
+            <setting type="sep"/>
+            <setting label="Volej.tv" type="bool" id="volej.tv" default="true"/>
+            <setting type="sep"/>
+            <setting label="Ping-pong.tv" type="bool" id="ping-pong.tv" default="true"/>
+	</category>
+    <category label="Nastavení">
+            <setting label="Skrýt Nastavení v menu" type="bool" id="hide_settings" default="false"/>
+            <setting label="Logovat volaní" type="bool" id="log_api_calls" default="false"/>
+	</category>
+</settings>

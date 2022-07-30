@@ -1,2 +1,5 @@
+v1.0.1 (30.7.2022)
+- oprava zobrazení live streamu u huste.tv
+
 v1.0.0 (26.6.2022)
 - první verze

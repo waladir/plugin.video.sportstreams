@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.0">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.1">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -22,6 +22,9 @@ Ping-pong.tv (přenosy ze soutěží stolního tenisu
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
+v1.0.1 (30.7.2022)
+- oprava zobrazení live streamu u huste.tv
+
 v1.0.0 (26.6.2022)
 - první verze
     </news>

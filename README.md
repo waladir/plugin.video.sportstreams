@@ -6,7 +6,10 @@
 TVcom.cz (živé přenosy i archiv různých sportů a soutěží)<br>
 Huste.tv (živé přenosy i archiv ze slovenských soutěží)<br>
 Volej.tv (přenosy volejbalových soutěží)<br>
-Ping-pong.tv (přenosy ze soutěží stolního tenisu<p>
+Ping-pong.tv (přenosy ze soutěží stolního tenisu)<p>
+
+v1.0.1 (30.7.2022)<br>
+- oprava zobrazení live streamu u huste.tv<br><br>
 
 v1.0.0 (26.06.2022)<br>
 - první verze<br><br>

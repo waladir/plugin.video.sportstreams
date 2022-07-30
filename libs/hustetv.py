@@ -238,7 +238,7 @@ def get_hustetv_live_streams():
             if cas == 'LIVE':
                 live_streams.append({ 'service' : 'huste.tv', 'type' : 'live', 'link' : link, 'playable' : 1, 'cas' : 'LIVE', 'startts' : -1, 'endts' : None, 'title' : title, 'image' : None})
             else:
-                startts = int(time.mktime(time.strptime(datum + ' ' + cas, '%d.%m.%Y %H:%M:%S')))
+                startts = int(time.mktime(time.strptime(datum + ' ' + cas, '%d.%m.%Y %H:%M')))
                 live_streams.append({'service' : 'huste.tv', 'type' : 'live', 'link' : None, 'playable' : 0, 'cas' : datum + ' ' + cas, 'startts' : startts, 'endts' : None, 'title' : title, 'image' : None})
 
     future = soup.find_all('div', {'class' : 'b-live-calendar'})

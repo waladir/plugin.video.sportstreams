@@ -116,9 +116,11 @@ def list_hustetv_items(link, label):
     xbmcplugin.setPluginCategory(_handle, label)
     soup = load_page(link)
     items = soup.find_all('article', {'class': 'b-article'})
-    
-    previous_page = soup.find('ul', {'class': 'pagination'}).find('a', {'aria-label' : 'Naspäť'})
-    next_page = soup.find('ul', {'class': 'pagination'}).find('a', {'aria-label' : 'Ďalej'})
+    previous_page = None
+    next_page = None
+    if soup.find('ul', {'class': 'pagination'}):
+        previous_page = soup.find('ul', {'class': 'pagination'}).find('a', {'aria-label' : 'Naspäť'})
+        next_page = soup.find('ul', {'class': 'pagination'}).find('a', {'aria-label' : 'Ďalej'})
 
     if previous_page is not None:
         list_item = xbmcgui.ListItem(label = 'Předchozí strana')
@@ -156,13 +158,19 @@ def list_hustetv_items(link, label):
 def list_hustetv_submenu(link, label):
     xbmcplugin.setPluginCategory(_handle, label)    
     soup = load_page(link)
-    navbar = soup.find('div', {'class': 'b-nav'}).find_all('a')
-    for a in navbar:
-        title = a.get('title')
-        link = a.get('href')
-        list_item = xbmcgui.ListItem(label = title)
-        url = get_url(action='list_hustetv_items', link = link, label = label + ' / ' + title)  
-        xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
+    navbar_root = soup.find_all('li', {'class' : 'sub'})
+    for item_root in navbar_root:
+        navbar = item_root.find_all('div', {'class' : 'w-more'})
+        for item in navbar:
+            a = item.find('a')
+            if  a.get('title') == label:
+                navbar_row = item_root.find('ul', {'class' : 'nav'})
+                for item_row in navbar_row.find_all('a'):
+                    title = item_row.get('title')
+                    link = item_row.get('href')
+                    list_item = xbmcgui.ListItem(label = title)
+                    url = get_url(action='list_hustetv_items', link = link, label = label + ' / ' + title)  
+                    xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
     xbmcplugin.endOfDirectory(_handle)
 
 def list_hustetv_archiv(link, label):

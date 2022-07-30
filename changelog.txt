@@ -1,3 +1,6 @@
+v1.0.2 (30.7.2022)
+- úprava submenu v huste.tv
+
 v1.0.1 (30.7.2022)
 - oprava zobrazení live streamu u huste.tv
 

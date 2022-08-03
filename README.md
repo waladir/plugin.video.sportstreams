@@ -8,6 +8,9 @@ Huste.tv (živé přenosy i archiv ze slovenských soutěží)<br>
 Volej.tv (přenosy volejbalových soutěží)<br>
 Ping-pong.tv (přenosy ze soutěží stolního tenisu)<p>
 
+v1.0.3 (3.8.2022)<br>
+- úprava dat pro huste.tv + formátování datumu<br><br>
+
 v1.0.2 (30.7.2022)<br>
 - úprava submenu v huste.tv<br><br>
 

@@ -266,7 +266,8 @@ def get_hustetv_live_streams():
                 category_title.append(category.get_text())
 
             title = (' - ').join(titles) + ' (' + datum + ' ' + cas + ')'
-            live_streams.append({ 'service' : 'huste.tv', 'type' : 'future', 'link' : None, 'playable' : 0, 'cas' : datum + ' ' + cas, 'title' : title, 'image' : None})
+            startts = int(time.mktime(time.strptime(datum + ' ' + cas, '%d.%m.%Y %H:%M')))
+            live_streams.append({ 'service' : 'huste.tv', 'type' : 'future', 'link' : None, 'playable' : 0, 'cas' : datum + ' ' + cas, 'startts' : startts, 'endts' : None, 'title' : title, 'image' : None})
     return live_streams
 
 

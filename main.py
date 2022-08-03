@@ -40,6 +40,7 @@ def list_live_streams(label):
     if addon.getSetting('tvcom.cz') == 'true':
         streams = streams + get_tvcomcz_live_streams()
     if addon.getSetting('huste.tv') == 'true':
+        print(get_hustetv_live_streams())
         streams = streams + get_hustetv_live_streams()
 
     streams  = sorted(streams, key=lambda d: d['startts']) 
@@ -53,7 +54,7 @@ def list_live_streams(label):
             cas = 'LIVE'
         if stream['type'] == 'live':
             if stream['playable'] == 1:
-                list_item = xbmcgui.ListItem(label = stream['title'] + '\n' + cas)
+                list_item = xbmcgui.ListItem(label = stream['title'] + ' (' + cas + ')')
                 list_item.setInfo('video', {'title' : stream['title'], 'plot' : stream['title']}) 
                 list_item.setArt({'icon': stream['image']})
                 if stream['service'] == 'ct4sportplus':
@@ -66,16 +67,22 @@ def list_live_streams(label):
                 list_item.setProperty('IsPlayable', 'true')        
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
             else:
-                list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + stream['title'] + '\n' + cas + '[/COLOR]')
+                list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + stream['title'] + ' (' + cas + ')' +  '[/COLOR]')
                 list_item.setInfo('video', {'title' : stream['title'], 'plot' : stream['title']}) 
                 list_item.setArt({'icon': stream['image']})
                 url = get_url(action = 'list_live_streams', label = label) 
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)    
-
     for stream in streams:
+        if stream['startts'] > 0:
+            if stream['endts'] is not None:
+                cas = datetime.strftime(datetime.fromtimestamp(stream['startts']), '%H:%M') + ' - '  + datetime.strftime(datetime.fromtimestamp(stream['endts']), '%H:%M')
+            else:
+                cas = ''
+        else:
+            cas = 'LIVE'
         if stream['type'] == 'future':
             if stream['playable'] == 1:
-                list_item = xbmcgui.ListItem(label = stream['title'] + '\n' + cas)
+                list_item = xbmcgui.ListItem(label = stream['title'] + ' (' + cas + ')')
                 list_item.setInfo('video', {'title' : stream['title'], 'plot' : stream['title']}) 
                 list_item.setArt({'icon': stream['image']})
                 if stream['service'] == 'ct4sportplus':
@@ -88,7 +95,10 @@ def list_live_streams(label):
                 list_item.setProperty('IsPlayable', 'true')        
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
             else:
-                list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + stream['title'] + '\n' + cas + '[/COLOR]')
+                if cas != '':
+                    list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + stream['title'] + ' (' + cas + ')' + '[/COLOR]')
+                else:
+                    list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + stream['title'] + '[/COLOR]')
                 list_item.setInfo('video', {'title' : stream['title'], 'plot' : stream['title']}) 
                 list_item.setArt({'icon': stream['image']})
                 url = get_url(action = 'list_live_streams', label = label) 

@@ -1,3 +1,6 @@
+v1.0.4 (12.11.2022)
+- přidání Ettu.tv
+
 v1.0.3 (3.8.2022)
 - úprava dat pro huste.tv + formátování datumu
 

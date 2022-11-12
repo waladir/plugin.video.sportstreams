@@ -81,7 +81,6 @@ def list_ct4sportplus_main(label):
     xbmcplugin.setPluginCategory(_handle, label)
     live_streams = get_ct4sportplus_live_streams()
     for stream in live_streams:
-        print(stream)
         if stream['type'] == 'live':
             list_item = xbmcgui.ListItem(label = stream['title'] +  ' (' + stream["cas"] + ')')
             list_item.setInfo('video', {'title' : stream['title']}) 
@@ -97,8 +96,6 @@ def list_ct4sportplus_main(label):
             list_item.setArt({'icon': stream['image']})
             list_item.setProperty('IsPlayable', 'false')        
             xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
-    xbmcplugin.endOfDirectory(_handle)    
-
     xbmcplugin.endOfDirectory(_handle)    
 
 def get_ct4sportplus_live_streams():

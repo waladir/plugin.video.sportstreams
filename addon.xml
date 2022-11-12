@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.3">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.4">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -11,17 +11,21 @@
   <extension point="xbmc.addon.metadata">
     <summary lang="cs_CZ">Sport Streams</summary>
     <description lang="cs_CZ">
-České a slovenské sportovní přenosy z různých zdrojů:
+Sportovní přenosy z různých zdrojů:
 
 ČT4 Sport Plus (ČT4 Sport + extra přenosy)
 TVcom.cz (živé přenosy i archiv různých sportů a soutěží)
 Huste.tv (živé přenosy i archiv ze slovenských soutěží)
 Volej.tv (přenosy volejbalových soutěží)
-Ping-pong.tv (přenosy ze soutěží stolního tenisu
+Ping-pong.tv (přenosy ze soutěží stolního tenisu)
+Ettu.tv (přenosy mezinárodní federace stolního tenisu)
     </description>    
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
+v1.0.4 (12.11.2022)
+- přidání Ettu.tv
+
 v1.0.3 (3.8.2022)
 - úprava dat pro huste.tv + formátování datumu
 

@@ -9,6 +9,9 @@ Volej.tv (přenosy volejbalových soutěží)<br>
 Ping-pong.tv (přenosy ze soutěží stolního tenisu)<br>
 Ettu.tv (přenosy mezinárodní federace stolního tenisu)<p>
 
+v1.0.5 (14.11.2022)<br>
+- oprava chyby po přidání Ettu.tv<br><br>
+
 v1.0.4 (12.11.2022)<br>
 - přidání Ettu.tv<br><br>
 
@@ -20,7 +23,4 @@ v1.0.2 (30.7.2022)<br>
 
 v1.0.1 (30.7.2022)<br>
 - oprava zobrazení live streamu u huste.tv<br><br>
-
-v1.0.0 (26.06.2022)<br>
-- první verze<br><br>
 </p>

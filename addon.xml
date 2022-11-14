@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.4">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.5">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -23,6 +23,9 @@ Ettu.tv (přenosy mezinárodní federace stolního tenisu)
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
+v1.0.5 (14.11.2022)
+- oprava chyby po přidání Ettu.tv
+
 v1.0.4 (12.11.2022)
 - přidání Ettu.tv
 
@@ -34,9 +37,6 @@ v1.0.2 (30.7.2022)
 
 v1.0.1 (30.7.2022)
 - oprava zobrazení live streamu u huste.tv
-
-v1.0.0 (26.6.2022)
-- první verze
     </news>
     <assets>
         <icon>icon.png</icon>

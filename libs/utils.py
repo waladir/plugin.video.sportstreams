@@ -7,3 +7,4 @@ _url = sys.argv[0]
 
 def get_url(**kwargs):
     return '{0}?{1}'.format(_url, urlencode(kwargs))
+    

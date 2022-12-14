@@ -14,8 +14,10 @@
             <setting label="Ping-pong.tv" type="bool" id="ping-pong.tv" default="true"/>
             <setting type="sep"/>
             <setting label="Ettu.tv" type="bool" id="ettu.tv" default="true"/>
-             <setting label="Počet streamů na stránku" type="slider" id="pagesize" range="10,10,500" default="20" option="int"/>
-             <setting label="Zobrazit v Live a plánované streamy" type="bool" id="add_ettutv_to_livestreams" default="true"/>
+            <setting label="Počet streamů na stránku" type="slider" id="pagesize" range="10,10,500" default="20" option="int"/>
+            <setting label="Zobrazit v Live a plánované streamy" type="bool" id="add_ettutv_to_livestreams" default="true"/>
+            <setting type="sep"/>             
+            <setting label="Niké.sk" type="bool" id="nike.sk" default="true"/>
 	</category>
     <category label="Nastavení">
             <setting label="Skrýt Nastavení v menu" type="bool" id="hide_settings" default="false"/>

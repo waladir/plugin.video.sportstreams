@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.5">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.6">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -19,10 +19,15 @@ Huste.tv (živé přenosy i archiv ze slovenských soutěží)
 Volej.tv (přenosy volejbalových soutěží)
 Ping-pong.tv (přenosy ze soutěží stolního tenisu)
 Ettu.tv (přenosy mezinárodní federace stolního tenisu)
+Niké.sk (živé přenosy i archiv ze slovenských soutěží)
     </description>    
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
+v1.0.6 (14.12.2022)
+- úprava huste.tv
+- přídání nike.sk
+
 v1.0.5 (14.11.2022)
 - oprava chyby po přidání Ettu.tv
 
@@ -34,9 +39,6 @@ v1.0.3 (3.8.2022)
 
 v1.0.2 (30.7.2022)
 - úprava submenu v huste.tv
-
-v1.0.1 (30.7.2022)
-- oprava zobrazení live streamu u huste.tv
     </news>
     <assets>
         <icon>icon.png</icon>

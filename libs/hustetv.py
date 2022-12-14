@@ -202,18 +202,19 @@ def list_hustetv_live(label):
 
     for stream in live_streams:
         if stream['type'] == 'live':
-            list_item = xbmcgui.ListItem(label = stream['title'])
             if int(stream['playable']) == 1:
+                list_item = xbmcgui.ListItem(label = stream['title'])
                 list_item.setInfo('video', {'title' : stream['title']}) 
                 url = get_url(action='play_hustetv_live_video', link = stream['link'], label = label + ' / ' + stream['title']) 
                 list_item.setContentLookup(False)          
                 list_item.setProperty('IsPlayable', 'true')        
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
             else:
+                list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + stream['title'] + '[/COLOR]')
                 url = get_url(action='list_hustetv_live', label = label)  
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
         if stream['type'] == 'future':
-            list_item = xbmcgui.ListItem(label = stream['title'])
+            list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + stream['title'] + '[/COLOR]')
             url = get_url(action='list_hustetv_live', label = label)  
             xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
     xbmcplugin.endOfDirectory(_handle, cacheToDisc = False)
@@ -241,7 +242,6 @@ def get_hustetv_live_streams():
             category_title = []
             for category in categories:
                 category_title.append(category.get_text())
-
             title = (' - ').join(titles) + ' (' + datum + ' ' + cas + ')'
             if cas == 'LIVE':
                 live_streams.append({ 'service' : 'huste.tv', 'type' : 'live', 'link' : link, 'playable' : 1, 'cas' : 'LIVE', 'startts' : -1, 'endts' : None, 'title' : title, 'image' : None})
@@ -274,12 +274,8 @@ def get_hustetv_live_streams():
 def list_hustetv_main(label):
     xbmcplugin.setPluginCategory(_handle, label)
 
-    list_item = xbmcgui.ListItem(label = 'Live a budoucí')
-    url = get_url(action='list_hustetv_live', label = 'Live')  
-    xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
-
-    list_item = xbmcgui.ListItem(label = 'Archív')
-    url = get_url(action='list_hustetv_archiv', link = 'https://huste.joj.sk/archiv', label = 'Archív')  
+    list_item = xbmcgui.ListItem(label = 'Live a plánované streamy')
+    url = get_url(action='list_hustetv_live', label = 'Live a plánované streamy')  
     xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
 
     soup = load_page('https://huste.joj.sk/')

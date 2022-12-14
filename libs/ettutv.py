@@ -146,8 +146,8 @@ def list_ettutv_categories(label, filter, is_category = 0):
 def list_ettutv_main(label):
     xbmcplugin.setPluginCategory(_handle, label)
 
-    list_item = xbmcgui.ListItem(label = 'Dnešní a plánované')
-    url = get_url(action='list_ettutv_schedule', label = 'Dnešní a plánované')  
+    list_item = xbmcgui.ListItem(label = 'Live a plánované streamy')
+    url = get_url(action='list_ettutv_schedule', label = 'Live a plánované streamy')  
     xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
 
     list_item = xbmcgui.ListItem(label = 'Všechny')

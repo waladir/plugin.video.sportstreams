@@ -15,6 +15,7 @@ from libs.hustetv import list_hustetv_main, list_hustetv_live, list_hustetv_arch
 from libs.volejtv import list_volejtv_main, list_volejtv_streams, play_volejtv_video
 from libs.pingpongtv import list_pingpongtv_main, list_pingpongtv_filter_items, list_pingpongtv_streams, play_pingpongtv_video
 from libs.ettutv import list_ettutv_main, list_ettutv_categories, list_ettutv_filter, play_ettutv_stream, get_ettutv_live_streams, list_ettutv_schedule
+from libs.nikesk import list_nikesk_main, list_nikesk_category, list_nikesk_tournament, play_nikesk_stream, list_nikesk_live, get_nikesk_live_streams
 
 _url = sys.argv[0]
 if len(sys.argv) > 1:
@@ -44,6 +45,8 @@ def list_live_streams(label):
         streams = streams + get_hustetv_live_streams()
     if addon.getSetting('ettu.tv') == 'true' and addon.getSetting('add_ettutv_to_livestreams') == 'true':
         streams = streams + get_ettutv_live_streams()
+    if addon.getSetting('nike.sk') == 'true':
+        streams = streams + get_nikesk_live_streams()
 
     streams  = sorted(streams, key=lambda d: d['startts']) 
     for stream in streams:
@@ -149,6 +152,11 @@ def list_menu():
         url = get_url(action='list_ettutv_main', label = 'Ettu.tv')  
         list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'ettutv.jpg'), 'icon' : os.path.join(icons_dir , 'ettutv.jpg') })
         xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
+    if addon.getSetting('nike.sk') == 'true':
+        list_item = xbmcgui.ListItem(label = 'Niké.sk')
+        url = get_url(action='list_nikesk_main', label = 'Niké.sk')  
+        list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'nikesk.png'), 'icon' : os.path.join(icons_dir , 'nikesk.png') })
+        xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
 
 
     if addon.getSetting('hide_settings') != 'true':
@@ -239,6 +247,16 @@ def router(paramstring):
         elif params['action'] == 'play_ettutv_stream':
             play_ettutv_stream(params['id'])
 
+        elif params['action'] == 'list_nikesk_main':
+            list_nikesk_main(params['label'])
+        elif params['action'] == 'list_nikesk_live':
+            list_nikesk_live(params['label'])            
+        elif params['action'] == 'list_nikesk_category':
+            list_nikesk_category(params['label'], params['category'])            
+        elif params['action'] == 'list_nikesk_tournament':
+            list_nikesk_tournament(params['label'], params['category'], params['tournament'])            
+        elif params['action'] == 'play_nikesk_stream':
+            play_nikesk_stream(params['id'], params['type'])
 
         elif params['action'] == 'list_settings':
             list_settings(params['label'])

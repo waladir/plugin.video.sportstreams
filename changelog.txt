@@ -1,3 +1,7 @@
+v1.0.6 (14.12.2022)
+- úprava huste.tv
+- přídání nike.sk
+
 v1.0.5 (14.11.2022)
 - oprava chyby po přidání Ettu.tv
 
@@ -9,7 +13,3 @@ v1.0.3 (3.8.2022)
 
 v1.0.2 (30.7.2022)
 - úprava submenu v huste.tv
-
-v1.0.1 (30.7.2022)
-- oprava zobrazení live streamu u huste.tv
-

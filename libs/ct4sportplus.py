@@ -90,10 +90,10 @@ def list_ct4sportplus_main(label):
             list_item.setProperty('IsPlayable', 'true')        
             xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
         if stream['type'] == 'future':
-            print(stream)
             list_item = xbmcgui.ListItem(label = '[COLOR = gray]' + stream['title'] +  ' (' + stream["cas"] + ')' + '[/COLOR]')
             list_item.setInfo('video', {'title' : stream['title']}) 
             list_item.setArt({'icon': stream['image']})
+            url = get_url(action='play_ct4sportplus_stream', url = stream['link']) 
             list_item.setProperty('IsPlayable', 'false')        
             xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
     xbmcplugin.endOfDirectory(_handle)    
@@ -133,6 +133,7 @@ def get_ct4sportplus_live_streams():
                 endts = startts + int(response[channel][type]['footage']) * 60
                 cas = start.strftime('%H:%M') + ' - ' + end.strftime('%H:%M')
                 live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'future', 'link' : None, 'playable' : 0, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})
+    live_streams = sorted(live_streams, key=lambda d: d['startts'])
     return live_streams
 
 

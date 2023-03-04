@@ -24,7 +24,7 @@ Niké.sk (živé přenosy i archiv ze slovenských soutěží)
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
-v1.0.7 (5.4.2023)
+v1.0.7 (4.3.2023)
 - oprava řazení u ČT4 Sport Plus
 - oprava chyby s nevyplněným url u budoucích streamů
 

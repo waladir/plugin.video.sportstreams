@@ -54,7 +54,10 @@ def get_ettutv_live_streams():
             event_id = event['id']
             title = event['editorial']['languages'][0]['title']
             description = event['editorial']['languages'][0]['description']
-            image = 'https://www.ettu.tv/image/400/225/' + event['editorial']['image']['path']
+            if 'image' in event['editorial']:
+                image = 'https://www.ettu.tv/image/400/225/' + event['editorial']['image']['path']
+            else:
+                image = ''
             startts = int(time.mktime(time.strptime(event['start_datetime']['date'], '%Y-%m-%d %H:%M:%S'))) + tz_offset
             if startts < time.mktime(datetime.now().timetuple()):
                 live_streams.append({ 'service' : 'ettu.tv', 'type' : 'live', 'link' : event_id, 'playable' : 1, 'cas' : datetime.strftime(datetime.fromtimestamp(startts), '%H:%M'), 'startts' : startts, 'endts' : None, 'title' : title, 'image' : image})

@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.8">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.0.9">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -24,6 +24,9 @@ Niké.sk (živé přenosy i archiv ze slovenských soutěží)
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
+v1.0.9 (14.8.2024)
+- přepsání Volej.tv po úpravě webu
+
 v1.0.8 (30.3.2024)
 - ošetření chybějících dat u Ettu.tv
 
@@ -37,9 +40,6 @@ v1.0.6 (14.12.2022)
 
 v1.0.5 (14.11.2022)
 - oprava chyby po přidání Ettu.tv
-
-v1.0.4 (12.11.2022)
-- přidání Ettu.tv
     </news>
     <assets>
         <icon>icon.png</icon>

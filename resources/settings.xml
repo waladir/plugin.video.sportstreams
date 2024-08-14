@@ -10,6 +10,7 @@
             <setting label="Kvalita streamu" type="select" id="quality" values="nízká|vysoká" default="vysoká"/>
             <setting type="sep"/>
             <setting label="Volej.tv" type="bool" id="volej.tv" default="true"/>
+            <setting label="Kvalita streamu" type="select" id="volejtv_quality" values="nízká|vysoká (může způsobovat problémy při přehrávání)" default="nízká"/>
             <setting type="sep"/>
             <setting label="Ping-pong.tv" type="bool" id="ping-pong.tv" default="true"/>
             <setting type="sep"/>

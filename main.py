@@ -12,7 +12,7 @@ from libs.utils import get_url
 from libs.ct4sportplus import list_ct4sportplus_main, play_ct4sportplus_stream, get_ct4sportplus_live_streams
 from libs.tvcomcz import list_tvcomcz_main, list_tvcomcz_submenu, list_tvcomcz_today, play_tvcomcz_stream, list_tvcomcz_league, list_tvcomcz_leagues, list_bl_SportTypes, list_bl_SportLeagues, change_blacklist, change_mainlist, get_tvcomcz_live_streams
 from libs.hustetv import list_hustetv_main, list_hustetv_live, list_hustetv_archiv, list_hustetv_submenu, list_hustetv_items, play_hustetv_video, play_hustetv_live_video, get_hustetv_live_streams
-from libs.volejtv import list_volejtv_main, list_volejtv_streams, play_volejtv_video
+from libs.volejtv import list_volejtv_main, list_volejtv_category, play_volejtv_stream
 from libs.pingpongtv import list_pingpongtv_main, list_pingpongtv_filter_items, list_pingpongtv_streams, play_pingpongtv_video
 from libs.ettutv import list_ettutv_main, list_ettutv_categories, list_ettutv_filter, play_ettutv_stream, get_ettutv_live_streams, list_ettutv_schedule
 from libs.nikesk import list_nikesk_main, list_nikesk_category, list_nikesk_tournament, play_nikesk_stream, list_nikesk_live, get_nikesk_live_streams
@@ -222,10 +222,10 @@ def router(paramstring):
 
         elif params['action'] == 'list_volejtv_main':
             list_volejtv_main(params['label'])
-        elif params['action'] == 'list_volejtv_streams':
-            list_volejtv_streams(params['link'],params['label'])
-        elif params['action'] == 'play_volejtv_video':
-            play_volejtv_video(params['link'])
+        elif params['action'] == 'list_volejtv_category':
+            list_volejtv_category(params['label'], params['category_id'], params['page'])
+        elif params['action'] == 'play_volejtv_stream':
+            play_volejtv_stream(params['id'])
 
         elif params['action'] == 'list_pingpongtv_main':
             list_pingpongtv_main(params['label'])

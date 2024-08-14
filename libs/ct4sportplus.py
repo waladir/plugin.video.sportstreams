@@ -135,6 +135,3 @@ def get_ct4sportplus_live_streams():
                 live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'future', 'link' : None, 'playable' : 0, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})
     live_streams = sorted(live_streams, key=lambda d: d['startts'])
     return live_streams
-
-
-

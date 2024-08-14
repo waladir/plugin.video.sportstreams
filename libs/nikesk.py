@@ -19,6 +19,13 @@ if len(sys.argv) > 1:
     _handle = int(sys.argv[1])
     
 def call_api(url, data = None, method = None):
+    import ssl 
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+        pass
+    else:
+        ssl._create_default_https_context = _create_unverified_https_context    
     addon = xbmcaddon.Addon()
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0', 'Accept': 'application/json; charset=utf-8'}    
     if data != None:

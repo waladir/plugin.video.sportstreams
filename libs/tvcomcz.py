@@ -9,7 +9,7 @@ from xbmcvfs import translatePath
 
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 import json
 import codecs
@@ -42,7 +42,9 @@ def call_api(url, data):
             return []
     except HTTPError as e:
         return { 'err' : e.reason }      
-
+    except URLError as e:
+        return { 'err' : e.reason }      
+    
 def load_SportTypes():
     addon = xbmcaddon.Addon()
     addon_userdata_dir = translatePath(addon.getAddonInfo('profile'))

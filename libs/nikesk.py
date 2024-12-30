@@ -7,7 +7,7 @@ import xbmcaddon
 
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode, quote
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 import json
 from datetime import datetime
@@ -49,8 +49,10 @@ def call_api(url, data = None, method = None):
         else:
             return []
     except HTTPError as e:
+        return { 'err' : e.reason }  
+    except URLError as e:
         return { 'err' : e.reason }      
-
+        
 def get_nikesk_live_streams():
     live_streams = []
     response = call_api(url = 'https://api.nike.sk/api/nikeone/v1/stream/lobby')

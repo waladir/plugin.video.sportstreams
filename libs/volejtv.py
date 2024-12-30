@@ -7,7 +7,7 @@ import xbmcaddon
 
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 import json
 from datetime import datetime
@@ -44,8 +44,10 @@ def call_api(url, data = None, method = None):
         else:
             return []
     except HTTPError as e:
+        return { 'err' : e.reason } 
+    except URLError as e:
         return { 'err' : e.reason }      
-
+         
 def play_volejtv_stream(id):
     addon = xbmcaddon.Addon()
     response = call_api(url = 'https://api-volejtv-prod.apps.okd4.devopsie.cloud/api/match/' + str(id))

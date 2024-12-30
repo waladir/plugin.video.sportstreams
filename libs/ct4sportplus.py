@@ -7,7 +7,7 @@ import xbmcaddon
 
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 import json, gzip
 import xml.etree.ElementTree as ET
@@ -45,7 +45,9 @@ def call_api(url, data, compression = 0):
             return []
     except HTTPError as e:
         return { 'err' : e.reason }      
-
+    except URLError as e:
+        return { 'err' : e.reason }      
+    
 def call_api_xml(url, data):
     addon = xbmcaddon.Addon()    
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0'}    
@@ -66,8 +68,10 @@ def call_api_xml(url, data):
         else:
             return []
     except HTTPError as e:
+        return { 'err' : e.reason } 
+    except URLError as e:
         return { 'err' : e.reason }      
-
+         
 def play_ct4sportplus_stream(url):
     list_item = xbmcgui.ListItem(path = url)    
     list_item.setProperty('inputstreamaddon', 'inputstream.adaptive')

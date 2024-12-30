@@ -7,7 +7,7 @@ import xbmcaddon
 
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 import json
 from datetime import datetime
@@ -44,6 +44,8 @@ def call_api(url, data = None, method = None):
         else:
             return []
     except HTTPError as e:
+        return { 'err' : e.reason }      
+    except URLError as e:
         return { 'err' : e.reason }      
 
 def get_ettutv_live_streams():

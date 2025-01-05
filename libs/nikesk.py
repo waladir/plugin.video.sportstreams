@@ -10,7 +10,6 @@ from urllib.parse import urlencode, quote
 from urllib.error import HTTPError, URLError
 
 import json
-from datetime import datetime
 import time
 
 from libs.utils import get_url

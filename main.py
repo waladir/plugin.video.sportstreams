@@ -12,7 +12,7 @@ from libs.utils import get_url
 from libs.ct4sportplus import list_ct4sportplus_main, play_ct4sportplus_stream, get_ct4sportplus_live_streams
 from libs.tvcomcz import list_tvcomcz_main, list_tvcomcz_submenu, list_tvcomcz_today, play_tvcomcz_stream, list_tvcomcz_league, list_tvcomcz_leagues, list_bl_SportTypes, list_bl_SportLeagues, change_blacklist, change_mainlist, get_tvcomcz_live_streams
 from libs.hustetv import list_hustetv_main, list_hustetv_live, list_hustetv_archiv, list_hustetv_submenu, list_hustetv_items, play_hustetv_video, play_hustetv_live_video, get_hustetv_live_streams
-from libs.volejtv import list_volejtv_main, list_volejtv_category, play_volejtv_stream
+from libs.volejtv import list_volejtv_main, list_volejtv_category, play_volejtv_stream, list_volejtv_live, play_volejtv_live_stream, get_volejtv_live_streams
 from libs.pingpongtv import list_pingpongtv_main, list_pingpongtv_filter_items, list_pingpongtv_streams, play_pingpongtv_video
 from libs.ettutv import list_ettutv_main, list_ettutv_categories, list_ettutv_filter, play_ettutv_stream, get_ettutv_live_streams, list_ettutv_schedule
 from libs.nikesk import list_nikesk_main, list_nikesk_category, list_nikesk_tournament, play_nikesk_stream, list_nikesk_live, get_nikesk_live_streams
@@ -43,10 +43,12 @@ def list_live_streams(label):
         streams = streams + get_tvcomcz_live_streams()
     if addon.getSetting('huste.tv') == 'true':
         streams = streams + get_hustetv_live_streams()
-    if addon.getSetting('ettu.tv') == 'true' and addon.getSetting('add_ettutv_to_livestreams') == 'true':
-        streams = streams + get_ettutv_live_streams()
-    if addon.getSetting('nike.sk') == 'true':
-        streams = streams + get_nikesk_live_streams()
+    if addon.getSetting('volej.tv') == 'true':
+        streams = streams + get_volejtv_live_streams()
+    # if addon.getSetting('ettu.tv') == 'true' and addon.getSetting('add_ettutv_to_livestreams') == 'true':
+    #     streams = streams + get_ettutv_live_streams()
+    # if addon.getSetting('nike.sk') == 'true':
+    #     streams = streams + get_nikesk_live_streams()
 
     streams  = sorted(streams, key=lambda d: d['startts']) 
     for stream in streams:
@@ -68,8 +70,8 @@ def list_live_streams(label):
                     url = get_url(action = 'play_tvcomcz_stream', url = stream['link']) 
                 elif  stream['service'] == 'huste.tv':
                     url = get_url(action = 'play_hustetv_live_video', link = stream['link'], label = stream['title']) 
-                elif  stream['service'] == 'ettu.tv':
-                    url = get_url(action='play_ettutv_stream', id = stream['link']) 
+                # elif  stream['service'] == 'ettu.tv':
+                #     url = get_url(action='play_ettutv_stream', id = stream['link']) 
                 list_item.setContentLookup(False)          
                 list_item.setProperty('IsPlayable', 'true')        
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
@@ -147,17 +149,16 @@ def list_menu():
         url = get_url(action='list_pingpongtv_main', label = 'Ping-pong.tv')  
         list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'pingpongtv.png'), 'icon' : os.path.join(icons_dir , 'pingpongtv.png') })
         xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
-    if addon.getSetting('ettu.tv') == 'true':
-        list_item = xbmcgui.ListItem(label = 'Ettu.tv')
-        url = get_url(action='list_ettutv_main', label = 'Ettu.tv')  
-        list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'ettutv.jpg'), 'icon' : os.path.join(icons_dir , 'ettutv.jpg') })
-        xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
-    if addon.getSetting('nike.sk') == 'true':
-        list_item = xbmcgui.ListItem(label = 'Niké.sk')
-        url = get_url(action='list_nikesk_main', label = 'Niké.sk')  
-        list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'nikesk.png'), 'icon' : os.path.join(icons_dir , 'nikesk.png') })
-        xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
-
+    # if addon.getSetting('ettu.tv') == 'true':
+    #     list_item = xbmcgui.ListItem(label = 'Ettu.tv')
+    #     url = get_url(action='list_ettutv_main', label = 'Ettu.tv')  
+    #     list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'ettutv.jpg'), 'icon' : os.path.join(icons_dir , 'ettutv.jpg') })
+    #     xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
+    # if addon.getSetting('nike.sk') == 'true':
+    #     list_item = xbmcgui.ListItem(label = 'Niké.sk')
+    #     url = get_url(action='list_nikesk_main', label = 'Niké.sk')  
+    #     list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'nikesk.png'), 'icon' : os.path.join(icons_dir , 'nikesk.png') })
+    #     xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
 
     if addon.getSetting('hide_settings') != 'true':
         list_item = xbmcgui.ListItem(label = 'Nastavení')
@@ -226,6 +227,10 @@ def router(paramstring):
             list_volejtv_category(params['label'], params['category_id'], params['page'])
         elif params['action'] == 'play_volejtv_stream':
             play_volejtv_stream(params['id'])
+        elif params['action'] == 'play_volejtv_live_stream':
+            play_volejtv_live_stream(params['id'])
+        elif params['action'] == 'list_volejtv_live':
+            list_volejtv_live(params['label'])            
 
         elif params['action'] == 'list_pingpongtv_main':
             list_pingpongtv_main(params['label'])

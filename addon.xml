@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.1.0">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.1.1">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -18,12 +18,14 @@ TVcom.cz (živé přenosy i archiv různých sportů a soutěží)
 Huste.tv (živé přenosy i archiv ze slovenských soutěží)
 Volej.tv (přenosy volejbalových soutěží)
 Ping-pong.tv (přenosy ze soutěží stolního tenisu)
-Ettu.tv (přenosy mezinárodní federace stolního tenisu)
-Niké.sk (živé přenosy i archiv ze slovenských soutěží)
     </description>    
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
+v1.1.1 (5.1.2025)
+- odstranění Ettu.tv a Niké.sk
+- přidání live streamů pro Volej.tv
+
 v1.1.0 (30.12.2024)
 - ošetření nedostupnosti webu (ettu.tv)
 
@@ -36,10 +38,6 @@ v1.0.8 (30.3.2024)
 v1.0.7 (4.3.2023)
 - oprava řazení u ČT4 Sport Plus
 - oprava chyby s nevyplněným url u budoucích streamů
-
-v1.0.6 (14.12.2022)
-- úprava huste.tv
-- přídání nike.sk
     </news>
     <assets>
         <icon>icon.png</icon>

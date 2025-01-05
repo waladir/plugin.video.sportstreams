@@ -285,6 +285,7 @@ def get_VideoDetail(VideoId):
     return {'StreamHls' : response['data']['StreamHls'], 'Stream' : response['data']['Stream'], 'StreamDash' : response['data']['StreamDash']}
 
 def play_tvcomcz_stream(url):
+    print(url)
     list_item = xbmcgui.ListItem()
     list_item.setProperty('inputstream','inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type','hls')
@@ -371,17 +372,18 @@ def list_tvcomcz_today(label):
                 SportLeagues = get_SportLeagues(SportTypeId)
                 if item['Id'] in [x['id'] for x in SportLeagues] or (item['Id'] == 0 and len(SportLeagues) == 0):
                     for video in item['Videos']:
+                        startts = int(time.mktime(time.strptime(video['Date'].replace('. ', '.'), '%d.%m.%Y %H:%M:%S')))
+                        date = datetime.strftime(datetime.fromtimestamp(startts), '%d.%m.%Y %H:%M')
                         if video['VideoType'] == 'L':
-                            streams.append({'id' : video['Id'], 'date' : video['Date'], 'title' : video['Value'], 'url' : video['Stream'], 'img' : video['Thumbnail'], 'available' : True})
+                            streams.append({'id' : video['Id'], 'date' : date, 'title' : video['Value'], 'url' : video['Stream'], 'img' : video['Thumbnail'], 'available' : True})
                         elif video['VideoType'] == 'F':
-                            streams.append({'id' : video['Id'], 'date' : video['Date'], 'title' : video['Value'], 'url' : video['Stream'], 'img' : video['Thumbnail'], 'available' : False})
+                            streams.append({'id' : video['Id'], 'date' : date, 'title' : video['Value'], 'url' : video['Stream'], 'img' : video['Thumbnail'], 'available' : False})
     # streams = sorted(streams, key=lambda d: d['date'])
     list_streams(streams)
     xbmcplugin.endOfDirectory(_handle)
 
 def get_tvcomcz_live_streams():
     live_streams = []
-
     post = {'Lang' : 'cz'}
     post.update({'ymd' : datetime.now().strftime('%Y%m%d')})
     response = call_api(url = 'http://mobileapi.tvcom.cz/MobileApi2/GetSportTypeDay.ashx', data = post)
@@ -406,10 +408,11 @@ def get_tvcomcz_live_streams():
                 if item['Id'] in [x['id'] for x in SportLeagues] or (item['Id'] == 0 and len(SportLeagues) == 0):
                     for video in item['Videos']:
                         startts = int(time.mktime(time.strptime(video['Date'].replace('. ', '.'), '%d.%m.%Y %H:%M:%S')))
+                        cas = datetime.strftime(datetime.fromtimestamp(startts), '%H:%M')
                         if video['VideoType'] == 'L':
-                            live_streams.append({ 'service' : 'tvcom.cz', 'type' : 'live', 'link' : video['Stream'], 'playable' : 1, 'cas' : video['Date'], 'startts' : startts, 'endts' : None, 'title' : video['Value'], 'image' : video['Thumbnail']})
+                            live_streams.append({ 'service' : 'tvcom.cz', 'type' : 'live', 'link' : video['Stream'], 'playable' : 1, 'cas' : cas, 'startts' : startts, 'endts' : None, 'title' : video['Value'], 'image' : video['Thumbnail']})
                         elif video['VideoType'] == 'F':
-                            live_streams.append({ 'service' : 'tvcom.cz', 'type' : 'future', 'link' : video['Stream'], 'playable' : 0, 'cas' : video['Date'], 'startts' : startts, 'endts' : None, 'title' : video['Value'], 'image' : video['Thumbnail']})
+                            live_streams.append({ 'service' : 'tvcom.cz', 'type' : 'future', 'link' : video['Stream'], 'playable' : 0, 'cas' : cas, 'startts' : startts, 'endts' : None, 'title' : video['Value'], 'image' : video['Thumbnail']})
     return live_streams
 
 def list_bl_SportTypes(label):

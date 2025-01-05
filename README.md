@@ -10,6 +10,10 @@ Ping-pong.tv (přenosy ze soutěží stolního tenisu)<br>
 Ettu.tv (přenosy mezinárodní federace stolního tenisu)<br>
 Niké.sk (živé přenosy i archiv ze slovenských soutěží)<p>
 
+v1.1.1 (5.1.2025)<br>
+- odstranění Ettu.tv a Niké.sk<br>
+- přidání live streamů pro Volej.tv<br><br>
+
 v1.1.0 (30.12.2024)<br>
 - ošetření nedostupnosti webu (ettu.tv)<br><br>
 
@@ -22,8 +26,4 @@ v1.0.8 (30.3.2024)<br>
 v1.0.7 (4.3.2023)<br>
 - oprava řazení u ČT4 Sport Plus<br>
 - oprava chyby s nevyplněným url u budoucích streamů<br><br>
-
-v1.0.6 (14.12.2022)<br>
-- úprava huste.tv<br>
-- přídání nike.sk<br><br>
 </p>

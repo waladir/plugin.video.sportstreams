@@ -47,7 +47,6 @@ def get_live_video_url(link, quality):
         for script in scripts:
             match = re.findall('https?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', str(script))
             for url in match:
-                print(url)
                 if '.m3u8' in url:
                     urls.append(url.rstrip(',').rstrip('\''))
     link = None

@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.1.1">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.1.2">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -22,7 +22,7 @@ Ping-pong.tv (přenosy ze soutěží stolního tenisu)
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
-v1.1.1 (5.1.2025)
+v1.1.1/2 (5.1.2025)
 - odstranění Ettu.tv a Niké.sk
 - přidání live streamů pro Volej.tv
 

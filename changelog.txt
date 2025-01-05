@@ -1,4 +1,4 @@
-v1.1.1 (5.1.2025)
+v1.1.1/2 (5.1.2025)
 - odstranění Ettu.tv a Niké.sk
 - přidání live streamů pro Volej.tv
 

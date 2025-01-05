@@ -72,6 +72,8 @@ def list_live_streams(label):
                     url = get_url(action = 'play_hustetv_live_video', link = stream['link'], label = stream['title']) 
                 # elif  stream['service'] == 'ettu.tv':
                 #     url = get_url(action='play_ettutv_stream', id = stream['link']) 
+                elif stream['service'] == 'volej.tv':
+                    url = get_url(action = 'play_volejtv_live_stream', id = stream['link'], label = stream['title']) 
                 list_item.setContentLookup(False)          
                 list_item.setProperty('IsPlayable', 'true')        
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
@@ -99,10 +101,12 @@ def list_live_streams(label):
                 list_item.setArt({'icon': stream['image']})
                 if stream['service'] == 'ct4sportplus':
                     url = get_url(action = 'play_ct4sportplus_stream', url = stream['link']) 
-                elif  stream['service'] == 'tvcom.cz':
+                elif stream['service'] == 'tvcom.cz':
                     url = get_url(action = 'play_tvcomcz_stream', url = stream['link']) 
-                elif  stream['service'] == 'huste.tv':
+                elif stream['service'] == 'huste.tv':
                     url = get_url(action = 'play_hustetv_live_video', link = stream['link'], label = stream['title']) 
+                elif stream['service'] == 'volej.tv':
+                    url = get_url(action = 'play_volejtv_live_stream', id = stream['link'], label = stream['title']) 
                 list_item.setContentLookup(False)          
                 list_item.setProperty('IsPlayable', 'true')        
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)

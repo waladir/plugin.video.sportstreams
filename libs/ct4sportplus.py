@@ -111,6 +111,7 @@ def get_ct4sportplus_live_streams():
         sys.exit()         
     
     response = call_api(url = 'https://feed-sport.ceskatelevize.cz/current-shows', data = None)
+    print(response)
     for channel in response:
         for type in response[channel]:
             if type == 'live':
@@ -121,13 +122,12 @@ def get_ct4sportplus_live_streams():
                 startts = int(response[channel][type]['time'])
                 endts = startts + int(response[channel][type]['footage']) * 60
                 cas = start.strftime('%H:%M') + ' - ' + end.strftime('%H:%M')
-                post = {'token' : token, 'ID' : 'CT' + channel, 'playerType' : 'iPad', 'quality' : '1080p'}
-                program = call_api_xml(url = 'https://www.ceskatelevize.cz/services/ivysilani/xml/playlisturl', data = post)
-                data = call_api( url= program, data = None)
-                if 'playlist' in data:
-                    for item in data['playlist']:
-                        url = item['streamUrls']['main']
-                        live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'live', 'link' : url, 'playable' : 1, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})
+                data = call_api(url = 'https://api.ceskatelevize.cz/video/v1/playlist-live/v1/stream-data/channel/CH_' + str(channel) + '?canPlayDrm=false&streamType=dash&quality=web&maxQualityCount=5', data = None)
+                print(data)
+                if 'streamUrls' in data and 'main' in data['streamUrls']:
+                    url = data['streamUrls']['main']
+                    live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'live', 'link' : url, 'playable' : 1, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})
+
             if type == 'next':
                 title = response[channel][type]['programTitle']
                 img = response[channel][type]['imageUrl']

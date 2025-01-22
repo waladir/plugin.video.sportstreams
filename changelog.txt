@@ -1,3 +1,6 @@
+v1.1.4 (22.1.2025)
+- přidání Tipos.sk
+
 v1.1.3 (14.1.2025)
 - úprava přehrávání ČT4 Sport/Plus
 
@@ -10,6 +13,3 @@ v1.1.0 (30.12.2024)
 
 v1.0.9 (14.8.2024)
 - přepsání Volej.tv po úpravě webu
-
-v1.0.8 (30.3.2024)
-- ošetření chybějících dat u Ettu.tv

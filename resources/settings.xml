@@ -14,6 +14,8 @@
             <setting type="sep"/>
             <setting label="Ping-pong.tv" type="bool" id="ping-pong.tv" default="true"/>
             <setting type="sep"/>             
+            <setting label="Tipos.sk" type="bool" id="tipos.sk" default="true"/>
+            <setting type="sep"/>             
 	</category>
     <category label="Nastavení">
             <setting label="Skrýt Nastavení v menu" type="bool" id="hide_settings" default="false"/>

@@ -111,7 +111,6 @@ def get_ct4sportplus_live_streams():
         sys.exit()         
     
     response = call_api(url = 'https://feed-sport.ceskatelevize.cz/current-shows', data = None)
-    print(response)
     for channel in response:
         for type in response[channel]:
             if type == 'live':

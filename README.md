@@ -3,11 +3,15 @@
 Sportovní přenosy z různých zdrojů:<br><br>
 
 ČT4 Sport Plus (ČT4 Sport + extra přenosy)<br>
+Hokejka TV (živé přenosy Maxa Ligy + archiv dalších hokejových soutěží)<br>
 TVcom.cz (živé přenosy i archiv různých sportů a soutěží)<br>
 Huste.tv (živé přenosy i archiv ze slovenských soutěží)<br>
 Volej.tv (přenosy volejbalových soutěží)<br>
 Ping-pong.tv (přenosy ze soutěží stolního tenisu)<br>
 Tipos.sk (přenosy slovenského basketbalu)<p>
+
+v1.2.0 (18.11.2025)<br>
+- přidání Hokejka TV<br><br>
 
 v1.1.4 (22.1.2025)<br>
 - přidání Tipos.sk<br><br>
@@ -21,7 +25,4 @@ v1.1.1/2 (5.1.2025)<br>
 
 v1.1.0 (30.12.2024)<br>
 - ošetření nedostupnosti webu (ettu.tv)<br><br>
-
-v1.0.9 (14.8.2024)<br>
-- přepsání Volej.tv po úpravě webu<br><br>
 </p>

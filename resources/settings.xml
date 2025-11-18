@@ -3,6 +3,10 @@
     <category label="Služby">
             <setting label="ČT4 Sport Plus" type="bool" id="ct4sportplus" default="true"/>
             <setting type="sep"/>
+            <setting label="Hokejka TV" type="bool" id="hokejka" default="true"/>
+            <setting label="Přihlašovací jméno" type="text" id="hokejka_username" default=""/>
+            <setting label="Heslo" type="text" id="hokejka_password" option="hidden" enable="!eq(-1,false)" default=""/>            
+            <setting type="sep"/>            
             <setting label="TVcom.cz" type="bool" id="tvcom.cz" default="true"/>
             <setting type="sep"/>
             <setting label="Huste.tv" type="bool" id="huste.tv" default="true"/>

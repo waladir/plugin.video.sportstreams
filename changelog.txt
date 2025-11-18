@@ -1,3 +1,6 @@
+v1.2.0 (18.11.2025)
+- přidání Hokejka TV
+
 v1.1.4 (22.1.2025)
 - přidání Tipos.sk
 
@@ -10,6 +13,3 @@ v1.1.1/2 (5.1.2025)
 
 v1.1.0 (30.12.2024)
 - ošetření nedostupnosti webu (ettu.tv)
-
-v1.0.9 (14.8.2024)
-- přepsání Volej.tv po úpravě webu

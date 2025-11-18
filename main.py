@@ -17,6 +17,7 @@ from libs.pingpongtv import list_pingpongtv_main, list_pingpongtv_filter_items, 
 from libs.ettutv import list_ettutv_main, list_ettutv_categories, list_ettutv_filter, play_ettutv_stream, get_ettutv_live_streams, list_ettutv_schedule
 from libs.nikesk import list_nikesk_main, list_nikesk_category, list_nikesk_tournament, play_nikesk_stream, list_nikesk_live, get_nikesk_live_streams
 from libs.tipossk import list_tipossk_main, list_tipossk_live, list_tipossk_archiv, play_tipossk_stream, get_tipossk_live_streams
+from libs.hokejka import list_hokejka_main, list_hokejka_streams, play_hokejka_stream
 
 _url = sys.argv[0]
 if len(sys.argv) > 1:
@@ -28,7 +29,7 @@ def list_settings(label):
     xbmcplugin.setPluginCategory(_handle, label)
     if addon.getSetting('tvcom.cz') == 'true':
         list_item = xbmcgui.ListItem(label = 'Výběr sportů a soutěží (TVcom.cz)')
-        url = get_url(action='list_bl_SportTypes', label = label + ' \ ' + 'Výběr sportů a soutěží')  
+        url = get_url(action='list_bl_SportTypes', label = label + ' \\ '  + 'Výběr sportů a soutěží')  
         xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
     list_item = xbmcgui.ListItem(label='Nastavení doplňku')
     url = get_url(action='addon_settings', label = 'Nastavení doplňku')  
@@ -131,6 +132,11 @@ def list_menu():
         list_item = xbmcgui.ListItem(label = 'ČT4 Sport Plus')
         url = get_url(action='list_ct4sportplus_main', label = 'ČT4 Sport Plus')  
         list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'ct4sportplus.png'), 'icon' : os.path.join(icons_dir , 'ct4sportplus.png') })
+        xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
+    if addon.getSetting('hokejka') == 'true':
+        list_item = xbmcgui.ListItem(label = 'Hokejka TV')
+        url = get_url(action='list_hokejka_main', label = 'Hokejka TV')  
+        list_item.setArt({ 'thumb' : os.path.join(icons_dir , 'hokejka.jpg'), 'icon' : os.path.join(icons_dir , 'hokejka.jpg') })
         xbmcplugin.addDirectoryItem(_handle, url, list_item, True)
     if addon.getSetting('tvcom.cz') == 'true':
         list_item = xbmcgui.ListItem(label = 'TVcom.cz')
@@ -270,6 +276,12 @@ def router(paramstring):
         elif params['action'] == 'play_tipossk_stream':
             play_tipossk_stream(params['url'])
 
+        elif params['action'] == 'list_hokejka_main':
+            list_hokejka_main(params['label'])
+        elif params['action'] == 'list_hokejka_streams':
+            list_hokejka_streams(params['label'], params['link'])
+        elif params['action'] == 'play_hokejka_stream':
+            play_hokejka_stream(params['link'])
 
         elif params['action'] == 'list_settings':
             list_settings(params['label'])

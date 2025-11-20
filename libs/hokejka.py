@@ -12,11 +12,23 @@ import requests
 import random
 import json
 import time
+from datetime import datetime
 
 from libs.utils import get_url
 
 if len(sys.argv) > 1:
     _handle = int(sys.argv[1])
+
+def play_hokejka_live(link):
+    cookies = get_cookies()
+    r = requests.get('https://www.hokej.cz' + link, cookies = cookies)
+    for row in r.text.split('\n'):
+        if 'hls: ' in row:
+            url = row.strip().replace('hls: "', '').replace('\/', '/').replace('",', '')
+            url = 'https:' + url
+            list_item = xbmcgui.ListItem(path = url)
+            xbmcplugin.setResolvedUrl(_handle, True, list_item)    
+    xbmcplugin.endOfDirectory(_handle, cacheToDisc = False)
 
 def play_hokejka_stream(link):
     cookies = get_cookies()
@@ -33,7 +45,33 @@ def play_hokejka_stream(link):
             xbmcplugin.setResolvedUrl(_handle, True, list_item)    
     xbmcplugin.endOfDirectory(_handle, cacheToDisc = False)
 
+def get_hokejka_live_streams():
+    cookies = get_cookies()
+    today_date = datetime.today() 
+    today_end_ts = int(time.mktime(datetime(today_date.year, today_date.month, today_date.day).timetuple())) + 60*60*24-1
+    live_streams = []
+    r = requests.get('https://www.hokej.cz/tv/hokejka/ml', cookies = cookies)
+    for row in r.text.split('\n'):
+        if 'var scoreboardDay' in row:
+            sb = row.strip().replace('var scoreboardDay = "', '').replace('";', '')
+        if 'var streamLeague' in row:
+            sb = '2025-11-19'
+            league = row.strip().replace('var streamLeague = ', '').replace(';', '')
+            matches = requests.get('https://s3-eu-west-1.amazonaws.com/hokej.cz/scoreboard/' + sb + '.json').json()
+            if league in matches:
+                if 'matches' in matches[league]:
+                    for match in matches[league]['matches']:
+                        if match['match_status'] not in ['po zápase']:
+                            startts = int(time.mktime(time.strptime(match['date'] + ' ' + match['time'], '%d-%m-%Y %H:%M')))
+                            title = match['home']['name'] + ' - ' + match['visitor']['name'] + '\n[COLOR=gray]' + matches[league]['league_name'] + '[/COLOR]'
+                            if startts < time.mktime(datetime.now().timetuple()) and startts > today_end_ts-(24*60*60):
+                                live_streams.append({ 'service' : 'hokejka', 'type' : 'live', 'link' : '/tv/hokejka/chl/?matchId=' + str(match['hokejcz_id']), 'playable' : 1, 'cas' : datetime.strftime(datetime.fromtimestamp(startts), '%H:%M'), 'startts' : startts, 'endts' : None, 'title' : title, 'image' : ''})
+                            elif startts < today_end_ts and startts > today_end_ts-(24*60*60):
+                                live_streams.append({ 'service' : 'hokejka', 'type' : 'future', 'link' : '/tv/hokejka/chl/?matchId=' + str(match['hokejcz_id']) , 'playable' : 0, 'cas' : datetime.strftime(datetime.fromtimestamp(startts), '%H:%M'), 'startts' : startts, 'endts' : None, 'title' : title, 'image' : ''})                
+    return live_streams
+
 def list_hokejka_streams(label, link):
+    cookies = get_cookies()
     xbmcplugin.setPluginCategory(_handle, label)
     soup = load_page('https://www.hokej.cz' + link)
     items = soup.find_all('li', {'class' : 'menu-item'})
@@ -47,6 +85,23 @@ def list_hokejka_streams(label, link):
                     list_item = xbmcgui.ListItem(label = text)
                     url = get_url(action = 'list_hokejka_streams', link = submenu_link, label = text)
                     xbmcplugin.addDirectoryItem(_handle, url, list_item, True)        
+
+    r = requests.get('https://www.hokej.cz' + link, cookies = cookies)
+    for row in r.text.split('\n'):
+        if 'var scoreboardDay' in row:
+            sb = row.strip().replace('var scoreboardDay = "', '').replace('";', '')
+        if 'var streamLeague' in row:
+            league = row.strip().replace('var streamLeague = ', '').replace(';', '')
+            matches = requests.get('https://s3-eu-west-1.amazonaws.com/hokej.cz/scoreboard/' + sb + '.json').json()
+            if league in matches:
+                if 'matches' in matches[league]:
+                    for match in matches[league]['matches']:
+                        if match['match_status'] not in ['před zápasem', 'po zápase']:
+                            list_item = xbmcgui.ListItem(label = match['home']['name'] + ' - ' + match['visitor']['name'])
+                            url = get_url(action = 'play_hokejka_live', link = '/tv/hokejka/chl/?matchId=' + str(match['hokejcz_id']), label = match['home']['name'] + ' - ' + match['visitor']['name'])
+                            list_item.setContentLookup(False)          
+                            list_item.setProperty('IsPlayable', 'true')        
+                            xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
     load = True
     cnt = 0
     links = []

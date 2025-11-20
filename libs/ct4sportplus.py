@@ -122,7 +122,6 @@ def get_ct4sportplus_live_streams():
                 endts = startts + int(response[channel][type]['footage']) * 60
                 cas = start.strftime('%H:%M') + ' - ' + end.strftime('%H:%M')
                 data = call_api(url = 'https://api.ceskatelevize.cz/video/v1/playlist-live/v1/stream-data/channel/CH_' + str(channel) + '?canPlayDrm=false&streamType=dash&quality=web&maxQualityCount=5', data = None)
-                print(data)
                 if 'streamUrls' in data and 'main' in data['streamUrls']:
                     url = data['streamUrls']['main']
                     live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'live', 'link' : url, 'playable' : 1, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})

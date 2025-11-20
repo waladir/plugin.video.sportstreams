@@ -97,10 +97,8 @@ def get_volejtv_live_streams():
             title = home_team + ' - ' + guest_team + '\n' + '[COLOR=gray]' + item['competition_name'] + '[/COLOR]'
             startts = int(time.mktime(time.strptime(item['match_time'][:-6], '%Y-%m-%dT%H:%M:%S'))) + tz_offset
             if startts < time.mktime(datetime.now().timetuple()):
-                print(item)
                 live_streams.append({ 'service' : 'volej.tv', 'type' : 'live', 'link' : event_id, 'playable' : 1, 'cas' : datetime.strftime(datetime.fromtimestamp(startts), '%H:%M'), 'startts' : startts, 'endts' : None, 'title' : title, 'image' : image})
             elif startts < today_end_ts:
-                print(item)
                 live_streams.append({ 'service' : 'volej.tv', 'type' : 'future', 'link' : event_id, 'playable' : 0, 'cas' : datetime.strftime(datetime.fromtimestamp(startts), '%H:%M'), 'startts' : startts, 'endts' : None, 'title' : title, 'image' : image})                
     return live_streams
 

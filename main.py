@@ -17,7 +17,7 @@ from libs.pingpongtv import list_pingpongtv_main, list_pingpongtv_filter_items, 
 from libs.ettutv import list_ettutv_main, list_ettutv_categories, list_ettutv_filter, play_ettutv_stream, get_ettutv_live_streams, list_ettutv_schedule
 from libs.nikesk import list_nikesk_main, list_nikesk_category, list_nikesk_tournament, play_nikesk_stream, list_nikesk_live, get_nikesk_live_streams
 from libs.tipossk import list_tipossk_main, list_tipossk_live, list_tipossk_archiv, play_tipossk_stream, get_tipossk_live_streams
-from libs.hokejka import list_hokejka_main, list_hokejka_streams, play_hokejka_stream
+from libs.hokejka import list_hokejka_main, list_hokejka_streams, play_hokejka_stream, play_hokejka_live, get_hokejka_live_streams
 
 _url = sys.argv[0]
 if len(sys.argv) > 1:
@@ -49,6 +49,9 @@ def list_live_streams(label):
         streams = streams + get_volejtv_live_streams()
     if addon.getSetting('tipos.sk') == 'true':
         streams = streams + get_tipossk_live_streams()
+    if addon.getSetting('hokejka') == 'true':
+        streams = streams + get_hokejka_live_streams()
+
 
     streams  = sorted(streams, key=lambda d: d['startts']) 
     for stream in streams:
@@ -74,6 +77,8 @@ def list_live_streams(label):
                     url = get_url(action = 'play_volejtv_live_stream', id = stream['link'], label = stream['title']) 
                 elif stream['service'] == 'tipos.sk':
                     url = get_url(action = 'play_tipossk_stream', url = stream['link']) 
+                elif stream['service'] == 'hokejka':
+                    url = get_url(action = 'play_hokejka_live', link = stream['link']) 
                 list_item.setContentLookup(False)          
                 list_item.setProperty('IsPlayable', 'true')        
                 xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
@@ -282,6 +287,8 @@ def router(paramstring):
             list_hokejka_streams(params['label'], params['link'])
         elif params['action'] == 'play_hokejka_stream':
             play_hokejka_stream(params['link'])
+        elif params['action'] == 'play_hokejka_live':
+            play_hokejka_live(params['link'])
 
         elif params['action'] == 'list_settings':
             list_settings(params['label'])

@@ -285,7 +285,6 @@ def get_VideoDetail(VideoId):
     return {'StreamHls' : response['data']['StreamHls'], 'Stream' : response['data']['Stream'], 'StreamDash' : response['data']['StreamDash']}
 
 def play_tvcomcz_stream(url):
-    print(url)
     list_item = xbmcgui.ListItem()
     list_item.setProperty('inputstream','inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type','hls')

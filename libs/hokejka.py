@@ -55,7 +55,6 @@ def get_hokejka_live_streams():
         if 'var scoreboardDay' in row:
             sb = row.strip().replace('var scoreboardDay = "', '').replace('";', '')
         if 'var streamLeague' in row:
-            sb = '2025-11-19'
             league = row.strip().replace('var streamLeague = ', '').replace(';', '')
             matches = requests.get('https://s3-eu-west-1.amazonaws.com/hokej.cz/scoreboard/' + sb + '.json').json()
             if league in matches:

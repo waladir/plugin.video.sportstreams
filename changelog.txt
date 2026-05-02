@@ -1,3 +1,6 @@
+v1.2.3 (2.5.2026)
+- úprava zjišťování URL u live streamu TVcom
+
 v1.2.2 (22.11.2025)
 - oprava zobrazení live streamů z Hokejka TV v Live a plánované streamy
 
@@ -9,6 +12,3 @@ v1.2.0 (18.11.2025)
 
 v1.1.4 (22.1.2025)
 - přidání Tipos.sk
-
-v1.1.3 (14.1.2025)
-- úprava přehrávání ČT4 Sport/Plus

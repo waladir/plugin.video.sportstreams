@@ -409,7 +409,12 @@ def get_tvcomcz_live_streams():
                         startts = int(time.mktime(time.strptime(video['Date'].replace('. ', '.'), '%d.%m.%Y %H:%M:%S')))
                         cas = datetime.strftime(datetime.fromtimestamp(startts), '%H:%M')
                         if video['VideoType'] == 'L':
-                            live_streams.append({ 'service' : 'tvcom.cz', 'type' : 'live', 'link' : video['Stream'], 'playable' : 1, 'cas' : cas, 'startts' : startts, 'endts' : None, 'title' : video['Value'], 'image' : video['Thumbnail']})
+                            stream_url = video['Stream']
+                            post = {'Lang' : 'cz'}
+                            response_detail = call_api(url = 'https://mobile.tvcom.cz/Api1/Detail.ashx?VideoId=' + str(video['Id']), data = post)
+                            if 'Hls' in response_detail:
+                                stream_url = response_detail['Hls']
+                            live_streams.append({ 'service' : 'tvcom.cz', 'type' : 'live', 'link' : stream_url, 'playable' : 1, 'cas' : cas, 'startts' : startts, 'endts' : None, 'title' : video['Value'], 'image' : video['Thumbnail']})
                         elif video['VideoType'] == 'F':
                             live_streams.append({ 'service' : 'tvcom.cz', 'type' : 'future', 'link' : video['Stream'], 'playable' : 0, 'cas' : cas, 'startts' : startts, 'endts' : None, 'title' : video['Value'], 'image' : video['Thumbnail']})
     return live_streams

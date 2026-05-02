@@ -10,6 +10,9 @@ Volej.tv (přenosy volejbalových soutěží)<br>
 Ping-pong.tv (přenosy ze soutěží stolního tenisu)<br>
 Tipos.sk (přenosy slovenského basketbalu)<p>
 
+v1.2.3 (2.5.2026)<br>
+- úprava zjišťování URL u live streamu TVcom<br><br>
+
 v1.2.2 (22.11.2025)<br>
 - oprava zobrazení live streamů z Hokejka TV v Live a plánované streamy<br><br>
 
@@ -21,8 +24,4 @@ v1.2.0 (18.11.2025)<br>
 
 v1.1.4 (22.1.2025)<br>
 - přidání Tipos.sk<br><br>
-
-v1.1.3 (14.1.2025)<br>
-- úprava přehrávání ČT4 Sport/Plus<br><br>
-
 </p>

@@ -1,4 +1,4 @@
-﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.2.3">
+﻿<addon id="plugin.video.sportstreams" name="Sport Streams" provider-name="waladir" version="1.2.4">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0" />
@@ -24,6 +24,11 @@ Tipos.sk (přenosy slovenského basketbalu)
     <platform>all</platform>
     <source>https://github.com/waladir/plugin.video.sportstreams</source>
     <news>
+v1.2.4 (19.9.2026)
+- oprava čtení live streamů u Tipos.sk
+- přepracování ČT4 Sport Plus na nové API
+- zobrazení budoucích streamů v HokejkaTV
+
 v1.2.3 (2.5.2026)
 - úprava zjišťování URL u live streamu TVcom
 
@@ -35,9 +40,6 @@ v1.2.1 (21.11.2025)
 
 v1.2.0 (18.11.2025)
 - přidání Hokejka TV
-
-v1.1.4 (22.1.2025)
-- přidání Tipos.sk
     </news>
     <assets>
         <icon>icon.png</icon>

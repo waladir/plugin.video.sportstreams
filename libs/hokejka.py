@@ -70,6 +70,8 @@ def get_hokejka_live_streams():
     return live_streams
 
 def list_hokejka_streams(label, link):
+    today_date = datetime.today() 
+    today_end_ts = int(time.mktime(datetime(today_date.year, today_date.month, today_date.day).timetuple())) + 60*60*24-1
     cookies = get_cookies()
     xbmcplugin.setPluginCategory(_handle, label)
     soup = load_page('https://www.hokej.cz' + link)
@@ -95,11 +97,16 @@ def list_hokejka_streams(label, link):
             if league in matches:
                 if 'matches' in matches[league]:
                     for match in matches[league]['matches']:
-                        if match['match_status'] not in ['před zápasem', 'po zápase']:
-                            list_item = xbmcgui.ListItem(label = match['home']['name'] + ' - ' + match['visitor']['name'])
+                        if match['match_status'] not in ['po zápase']:
+                            startts = int(time.mktime(time.strptime(match['date'] + ' ' + match['time'], '%d-%m-%Y %H:%M')))
+                            if startts < time.mktime(datetime.now().timetuple()) and startts > today_end_ts-(24*60*60):
+                                list_item = xbmcgui.ListItem(label = match['home']['name'] + ' - ' + match['visitor']['name'])
+                                list_item.setProperty('IsPlayable', 'true')        
+                            else:
+                                list_item = xbmcgui.ListItem(label = '[COLOR=gray]' + match['home']['name'] + ' - ' + match['visitor']['name'] + ' (' +datetime.strftime(datetime.fromtimestamp(startts),'%d.%m. %H:%M') + ')[/COLOR]')
+                                list_item.setProperty('IsPlayable', 'false')        
                             url = get_url(action = 'play_hokejka_live', link = '/tv/hokejka/chl/?matchId=' + str(match['hokejcz_id']), label = match['home']['name'] + ' - ' + match['visitor']['name'])
                             list_item.setContentLookup(False)          
-                            list_item.setProperty('IsPlayable', 'true')        
                             xbmcplugin.addDirectoryItem(_handle, url, list_item, False)
     load = True
     cnt = 0

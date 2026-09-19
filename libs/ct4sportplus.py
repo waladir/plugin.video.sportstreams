@@ -5,73 +5,56 @@ import xbmcgui
 import xbmcplugin
 import xbmcaddon
 
-from urllib.request import urlopen, Request
-from urllib.parse import urlencode
-from urllib.error import HTTPError, URLError
+from urllib.error import HTTPError
 
-import json, gzip
-import xml.etree.ElementTree as ET
-from datetime import datetime,timedelta
+import json
+from datetime import date,datetime,timedelta
+import time
 
 from libs.utils import get_url
 
-_url = sys.argv[0]
 if len(sys.argv) > 1:
     _handle = int(sys.argv[1])
 
-def call_api(url, data, compression = 0):
+ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0'
+graphql_url = 'https://api.ceskatelevize.cz/graphql/'
+params = {'client' : 'iVysilaniWeb', 'version' : '1.131.1', 'use-new-playability' : True}
+
+GRAPHQL = { 
+            'TvProgramDailyTablet' : "query TvProgramDailyTablet($channels: [String!]!, $date: Date!) {\n  TVProgramDailyChannelsPlanV2(channels: $channels, date: $date) {\n    __typename\n    channel\n    currentBroadcast {\n      __typename\n      item {\n        __typename\n        ...CommonTvProgramFragment\n      }\n    }\n    encoder\n    program {\n      __typename\n      ...CommonTvProgramFragment\n    }\n  }\n  liveBroadcastFind(type: all) {\n    __typename\n    current {\n      __typename\n      channelAsString\n      cardLabels {\n        __typename\n        ...CardLabelFragment\n      }\n      encoder\n      previewImage\n    }\n  }\n}\nfragment CommonTvProgramFragment on DailyChannelPlan {\n  __typename\n  idec\n  sidp\n  startTime\n  title\n  show\n  episodeTitle\n  part\n  description\n  imageUrl\n  length\n  ivysilani\n  programSource\n  isPlayableNow\n  playableFrom\n  liveOnly\n  start\n  end\n}\nfragment CardLabelFragment on CardLabels {\n  __typename\n  topLeft\n  topRight\n  center\n  bottomLeft\n  bottomRight\n}"
+          }
+
+def call_graphql(operationName, variables):
+    post = {'operationName' : operationName, 'variables' : variables, 'query': GRAPHQL[operationName].replace('\t', '').replace('\n', ' ')}
+    data = call_api(url = graphql_url, data = post, method = 'POST')
+    if 'data' not in data or data['data'] is None:
+        return None
+    for result in data['data']:
+        return data['data'][result]
+    return None
+
+def call_api(url, data = None, method = None):
+    import requests
     addon = xbmcaddon.Addon()
-    if compression == 0:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0', 'Accept': 'application/json; charset=utf-8'}    
+    headers = {'User-Agent': ua, 'Accept-language' : 'cs', 'Accept-Encoding' : 'gzip', 'Accept': 'application/json; charset=utf-8', 'Content-type' : 'application/json;charset=UTF-8'}
+    if addon.getSetting('log_api_calls') == 'true':
+        xbmc.log(url)
+    if method == 'POST':
+        request = requests.post(url = url, params = params, json = data, headers = headers )
     else:
-        headers = {'Accept': 'application/json', 'Accept-Encoding': 'gzip'}    
-    if data != None:
-        data = urlencode(data)
-        data = data.encode('utf-8')
-    request = Request(url = url , data = data, headers = headers)
-    if addon.getSetting('log_api_calls') == 'true':
-        xbmc.log(str(url))
-        xbmc.log(str(data))
+        request = requests.get(url = url, params = params, headers = headers )
     try:
-        html = urlopen(request).read()
+        response = request.content
         if addon.getSetting('log_api_calls') == 'true':
-            xbmc.log(str(html))
-        if html and len(html) > 0:
-            if compression == 1:
-                html = gzip.decompress(html)
-            data = json.loads(html)
+            xbmc.log(str(response))
+        if response and len(response) > 0:
+            data = json.loads(response)
             return data
         else:
             return []
     except HTTPError as e:
-        return { 'err' : e.reason }      
-    except URLError as e:
-        return { 'err' : e.reason }      
-    
-def call_api_xml(url, data):
-    addon = xbmcaddon.Addon()    
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0'}    
-    if data != None:
-        data = urlencode(data)
-        data = data.encode('utf-8')
-    request = Request(url = url , data = data, headers = headers)
-    if addon.getSetting('log_api_calls') == 'true':
-        xbmc.log(str(url))
-        xbmc.log(str(data))
-    try:
-        html = urlopen(request).read()
-        if addon.getSetting('log_api_calls') == 'true':
-            xbmc.log(str(html))
-        if html and len(html) > 0:
-            data = ET.fromstring(html).text
-            return data
-        else:
-            return []
-    except HTTPError as e:
-        return { 'err' : e.reason } 
-    except URLError as e:
-        return { 'err' : e.reason }      
-         
+        return { 'err' : e.reason }        
+             
 def play_ct4sportplus_stream(url):
     list_item = xbmcgui.ListItem(path = url)    
     list_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
@@ -104,36 +87,34 @@ def list_ct4sportplus_main(label):
 
 def get_ct4sportplus_live_streams():
     live_streams = []
-    post = {'user' : 'iDevicesMotion'} 
-    token = call_api_xml(url = 'https://www.ceskatelevize.cz/services/ivysilani/xml/token/', data = post)
-    if len(token) == 0:
-        xbmcgui.Dialog().notification('ČT4 Sport Plus', 'Nepodařilo se získat token', xbmcgui.NOTIFICATION_ERROR, 5000)
-        sys.exit()         
-    
-    response = call_api(url = 'https://feed-sport.ceskatelevize.cz/current-shows', data = None)
-    for channel in response:
-        for type in response[channel]:
-            if type == 'live':
-                title = response[channel][type]['programTitle']
-                img = response[channel][type]['imageUrl']
-                start = datetime.fromtimestamp(int(response[channel][type]['time']))
-                end = start + timedelta(minutes = int(response[channel][type]['footage']))
-                startts = int(response[channel][type]['time'])
-                endts = startts + int(response[channel][type]['footage']) * 60
-                cas = start.strftime('%H:%M') + ' - ' + end.strftime('%H:%M')
-                data = call_api(url = 'https://api.ceskatelevize.cz/video/v1/playlist-live/v1/stream-data/channel/CH_' + str(channel) + '?canPlayDrm=false&streamType=dash&quality=web&maxQualityCount=5', data = None)
-                if 'streamUrls' in data and 'main' in data['streamUrls']:
-                    url = data['streamUrls']['main']
-                    live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'live', 'link' : url, 'playable' : 1, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})
+    day = date.today()
+    tz_offset = int(time.mktime(datetime.now().timetuple())-time.mktime(datetime.utcnow().timetuple()))
+    for channel in ['ctSportExtra']:
+        data = call_graphql(operationName = 'TvProgramDailyTablet', variables = {'channels' : channel, 'date' : day.strftime('%m.%d.%Y')})
+        for channel_program in data:
+            for item in channel_program['program']:
+                startts = time.mktime(time.strptime(item['start'][:-5], '%Y-%m-%dT%H:%M:%S')) + tz_offset
+                endts = time.mktime(time.strptime(item['end'][:-5], '%Y-%m-%dT%H:%M:%S')) + tz_offset
+                if endts>time.time():
+                    title = item['title']
+                    img = item['imageUrl']
+                    start = datetime.fromtimestamp(startts)
+                    end = datetime.fromtimestamp(endts)
+                    cas = start.strftime('%H:%M') + ' - ' + end.strftime('%H:%M')
+                    print(item)
+                    print(item['playableFrom'])
+                    print(channel_program['encoder'])
+                    if 'playableFrom' in item and len(str(item['playableFrom'])) > 0 and time.mktime(time.strptime(item['start'][:-5], '%Y-%m-%dT%H:%M:%S')) + tz_offset > time.time():
+                        item['isPlayableNow'] = False
+                    if  'isPlayableNow' not in item and startts<time.time():
+                        item['isPlayableNow'] = True
+                    if 'idec' in item and item['idec'] is not None and 'isPlayableNow' in item and item['isPlayableNow'] == True:
+                        data = call_api(url = 'https://api.ceskatelevize.cz/video/v1/playlist-live/v1/stream-data/channel/'+ str(channel_program['encoder']) + '?canPlayDrm=false&streamType=dash&quality=web&maxQualityCount=5', data = None)
+                        if 'streamUrls' in data and 'main' in data['streamUrls']:
+                            url = data['streamUrls']['main']
+                            live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'live', 'link' : url, 'playable' : 1, 'cas' : title, 'startts' : startts, 'endts' : endts, 'title' : item['title'], 'image' : item['imageUrl']})
+                    else:
+                        live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'future', 'link' : None, 'playable' : 0, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})
 
-            if type == 'next':
-                title = response[channel][type]['programTitle']
-                img = response[channel][type]['imageUrl']
-                start = datetime.fromtimestamp(int(response[channel][type]['time']))
-                end = start + timedelta(minutes = int(response[channel][type]['footage']))
-                startts = int(response[channel][type]['time'])
-                endts = startts + int(response[channel][type]['footage']) * 60
-                cas = start.strftime('%H:%M') + ' - ' + end.strftime('%H:%M')
-                live_streams.append({ 'service' : 'ct4sportplus', 'type' : 'future', 'link' : None, 'playable' : 0, 'cas' : cas, 'startts' : startts, 'endts' : endts, 'title' : title, 'image' : img})
     live_streams = sorted(live_streams, key=lambda d: d['startts'])
     return live_streams

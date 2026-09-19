@@ -26,7 +26,7 @@ tz_offset = int((time.mktime(datetime.now().timetuple())-time.mktime(datetime.ut
 
 def call_api(url, data = None, method = None):
     addon = xbmcaddon.Addon()
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0', 'Accept': 'application/json; charset=utf-8', 'X-Requested-With' : 'XMLHttpRequest'}    
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0', 'Accept': 'application/json; charset=utf-8', 'X-Requested-With' : 'XMLHttpRequest', 'Host' : 'www.tipos.sk', 'Origin' : 'https://www.tipos.sk', 'Referer' : 'https://www.tipos.sk'}    
     if data != None:
         data = urlencode(data)
         data = data.encode('utf-8')
@@ -106,7 +106,7 @@ def get_tipossk_live_streams():
     today_end_ts = int(time.mktime(datetime(today_date.year, today_date.month, today_date.day).timetuple())) + 60*60*24-1
     live_streams = []
     response = call_api(url = 'https://www.tipos.sk/Millennium.TiposTV/TIPOSTV/GetSchedule')
-    if len(response) > 0:
+    if response is not None and len(response) > 0:
         for item in response:
             title = item['team1'] + ' - ' + item['team2'] + '\n' + '[COLOR=gray]' + item['competition'] + ' - ' + item['tournament'] + '[/COLOR]'
             startts = int(time.mktime(time.strptime(format_datetime(item['date']), '%Y-%m-%dT%H:%M:%S')))

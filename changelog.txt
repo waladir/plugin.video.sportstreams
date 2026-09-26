@@ -1,3 +1,6 @@
+v1.2.5 (26.9.2026)
+- úprava přihlašování v HokejkaTV
+
 v1.2.4 (19.9.2026)
 - oprava čtení live streamů u Tipos.sk
 - přepracování ČT4 Sport Plus na nové API
@@ -11,6 +14,3 @@ v1.2.2 (22.11.2025)
 
 v1.2.1 (21.11.2025)
 - přidání live streamů z Hokejka TV
-
-v1.2.0 (18.11.2025)
-- přidání Hokejka TV

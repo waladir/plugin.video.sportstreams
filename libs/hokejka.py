@@ -86,7 +86,6 @@ def list_hokejka_streams(label, link):
                     list_item = xbmcgui.ListItem(label = text)
                     url = get_url(action = 'list_hokejka_streams', link = submenu_link, label = text)
                     xbmcplugin.addDirectoryItem(_handle, url, list_item, True)        
-
     r = requests.get('https://www.hokej.cz' + link, cookies = cookies)
     for row in r.text.split('\n'):
         if 'var scoreboardDay' in row:
@@ -168,16 +167,30 @@ def get_cookies():
 
 def login():
     addon = xbmcaddon.Addon()
-    session = requests.Session()
-    post = 'username=' + addon.getSetting('hokejka_username') + '&password=' + addon.getSetting('hokejka_password') + '&do=login-form-submit&send=Odeslat&'
-    req = session.post('https://www.hokej.cz/tv/hokejka?restore=true', data = post, headers = {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8', 'X-Requested-With' : 'XMLHttpRequest'})
-    if req.status_code not in [200] or 'redirect' not in str(req.content):
+    url = 'https://www.hokej.cz/tv/hokejka?restore=true'
+    try:
+        with requests.Session() as session:
+            session.get(url, timeout=30).raise_for_status()
+            post = {
+                'username': addon.getSetting('hokejka_username'),
+                'password': addon.getSetting('hokejka_password'),
+                'do': 'login-form-submit',
+                'send': 'Odeslat'
+            }
+            req = session.post(url, data=post, headers={'X-Requested-With': 'XMLHttpRequest'}, timeout=30)
+            req.raise_for_status()
+            page = session.get(url, timeout=30)
+            page.raise_for_status()
+            soup = BeautifulSoup(page.content, 'html.parser')
+            if soup.select_one('a[href*="do=logout"]') is None:
+                raise ValueError('Login was not confirmed')
+            cookies = session.cookies.get_dict()
+    except (requests.RequestException, ValueError):
         xbmcgui.Dialog().notification('Hokejka TV', 'Chyba při přihlášení', xbmcgui.NOTIFICATION_ERROR, 5000)
-        sys.exit() 
-    cookies = session.cookies.get_dict()
+        sys.exit()
     save_session(cookies)
     return cookies
-   
+
 def load_session():
     addon = xbmcaddon.Addon()
     addon_userdata_dir = translatePath(addon.getAddonInfo('profile'))

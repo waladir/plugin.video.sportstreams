@@ -38,9 +38,11 @@ def play_hokejka_stream(link):
             id = row.strip().replace("video: '","").replace("', //videoID","")
             r = requests.get('https://play.elh.livebox.cz/js/vod-dev.js?__tok' + str(random.randrange(100000000, 999999999)) + '__=' + str(random.randrange(100000000, 999999999)))
             for row in r.text.split('\n'):
+                if "my.ll = '" in row:
+                    url_part = row.strip().replace("my.ll = '","").replace("';","")
                 if 'my.token = ' in row:
                     auth = row.strip().replace("my.token = '","").replace("';","")
-                    url = 'https://n3.tmo.livebox.cz/elh-vod/_definst_/' + id + '.smil/playlist.m3u8?auth=' + quote(auth)
+                    url = 'https:' + url_part + id + '.smil/playlist.m3u8?auth=' + quote(auth)
             list_item = xbmcgui.ListItem(path = url)
             xbmcplugin.setResolvedUrl(_handle, True, list_item)    
     xbmcplugin.endOfDirectory(_handle, cacheToDisc = False)
@@ -56,7 +58,8 @@ def get_hokejka_live_streams():
             sb = row.strip().replace('var scoreboardDay = "', '').replace('";', '')
         if 'var streamLeague' in row:
             league = row.strip().replace('var streamLeague = ', '').replace(';', '')
-            matches = requests.get('https://s3-eu-west-1.amazonaws.com/hokej.cz/scoreboard/' + sb + '.json').json()
+            # matches = requests.get('https://s3-eu-west-1.amazonaws.com/hokej.cz/scoreboard/' + sb + '.json').json()
+            matches = requests.get('https://s3.eu-west-1.amazonaws.com/data.onlajny.com/odds/tipsport-live.json').json()
             if league in matches:
                 if 'matches' in matches[league]:
                     for match in matches[league]['matches']:
